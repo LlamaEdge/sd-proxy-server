@@ -1,6 +1,15 @@
 # StableDiffusion Proxy Server
 
+> [!NOTE]
+> The project is still under active development. The existing features still need to be improved and more features will be added in the future.
+
 ## Usage
+
+- Download proxy server wasm app
+
+```bash
+curl -LO https://github.com/LlamaEdge/sd-proxy-server/releases/latest/download/sd-proxy-server.wasm
+```
 
 - Start proxy server
 
@@ -8,7 +17,10 @@
   wasmedge --dir .:. ./target/wasm32-wasip1/release/sd-proxy-server.wasm
   ```
 
-- Register sd server
+  > [!TIP]
+  > `sd-proxy-server` will use `8080` port by default. You can change the port by adding `--port <port>`.
+
+- Register downstream sd server
 
   ```bash
   curl --location 'http://localhost:8080/admin/register/image' \
@@ -18,7 +30,7 @@
 
   If the command runs successfully, the following message will be displayed:
 
-  ```json
+  ```text
   Registered server url: http://localhost:7860/
   ```
 
