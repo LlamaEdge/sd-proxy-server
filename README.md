@@ -17,7 +17,6 @@
   wasmedge --dir .:. ./target/wasm32-wasip1/release/sd-proxy-server.wasm
   ```
 
-  > [!TIP]
   > `sd-proxy-server` will use `8080` port by default. You can change the port by adding `--port <port>`.
 
 - Register downstream sd server
