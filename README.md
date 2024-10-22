@@ -7,9 +7,9 @@
 
 - Download proxy server wasm app
 
-```bash
-curl -LO https://github.com/LlamaEdge/sd-proxy-server/releases/latest/download/sd-proxy-server.wasm
-```
+  ```bash
+  curl -LO https://github.com/LlamaEdge/sd-proxy-server/releases/latest/download/sd-proxy-server.wasm
+  ```
 
 - Start proxy server
 
