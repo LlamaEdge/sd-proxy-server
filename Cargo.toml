@@ -1,0 +1,28 @@
+[package]
+name = "sd-proxy-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = "^0.6"
+bytes = "1"
+futures-util = "0.3.30"
+tokio = { version = "1", features = ["rt", "macros", "net", "time", "io-util"] }
+hyper = { version = "0.14", features = ["full"] }
+serde_json = "1.0"
+log = { version = "0.4.21", features = ["std", "kv", "kv_serde"] }
+wasi-logger = { version = "0.1.2", features = ["kv"] }
+async-trait = "0.1.82"
+clap = { version = "4.4.6", features = ["cargo", "derive"] }
+anyhow = "1"
+thiserror = "1"
+serde = { version = "1.0", features = ["derive"] }
+endpoints = { version = "0.16.0", git = "https://github.com/LlamaEdge/LlamaEdge.git", branch = "feat-improve-whisper" }
+multipart-2021 = "0.19.0"
+uuid = { version = "1.4", features = ["v4", "fast-rng", "macro-diagnostics"] }
+base64 = "=0.22.1"
+
+[patch.crates-io]
+tokio = { git = "https://github.com/second-state/wasi_tokio.git", branch = "v1.36.x" }
+socket2 = { git = "https://github.com/second-state/socket2.git", branch = "v0.5.x" }
+hyper = { git = "https://github.com/second-state/wasi_hyper.git", branch = "v0.14.x" }
