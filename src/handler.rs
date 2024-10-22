@@ -1730,7 +1730,7 @@ pub(crate) async fn remove_url_handler(
     Path(url_type): Path<String>,
     body: String,
 ) -> Result<StatusCode, StatusCode> {
-    println!("In remove_url_handler");
+    info!(target: "stdout", "In remove_url_handler");
 
     let url_type = match url_type.as_str() {
         "image" => UrlType::Image,
@@ -1740,7 +1740,7 @@ pub(crate) async fn remove_url_handler(
     let url: Uri = body.parse().map_err(|_| StatusCode::BAD_REQUEST)?;
     state.remove_url(url_type, &url);
 
-    println!("unregistered {}", url);
+    info!(target: "stdout", "unregistered {}", url);
 
     Ok(StatusCode::OK)
 }

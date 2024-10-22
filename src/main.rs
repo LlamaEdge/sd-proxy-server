@@ -191,7 +191,7 @@ impl AppState {
             .retain(|server| &server.url != url);
 
         // Optionally, log the removal
-        println!("Removed {} URL: {}", url_type, url);
+        info!(target: "stdout", "Removed {} URL: {}", url_type, url);
     }
 }
 
