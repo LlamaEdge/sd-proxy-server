@@ -17,10 +17,10 @@ use std::{
     net::SocketAddr,
     sync::{
         atomic::{AtomicUsize, Ordering},
-        Arc, RwLock,
+        Arc,
     },
 };
-use tokio::net::TcpListener;
+use tokio::{net::TcpListener, sync::RwLock};
 use utils::LogLevel;
 
 type SharedClient = Arc<Client<HttpConnector>>;
@@ -97,7 +97,7 @@ async fn main() -> Result<(), ServerError> {
 
 #[async_trait]
 trait RoutingPolicy {
-    fn next(&self) -> Result<Uri, ServerError>;
+    async fn next(&self) -> Result<Uri, ServerError>;
 }
 
 /// Represents a downstream SD server
@@ -120,18 +120,19 @@ struct Services {
     servers: RwLock<Vec<Server>>,
 }
 impl Services {
-    fn push(&mut self, url: Uri) {
+    async fn push(&mut self, url: Uri) {
         let server = Server::new(url);
-        self.servers.write().unwrap().push(server)
+        self.servers.write().await.push(server)
     }
 }
+#[async_trait]
 impl RoutingPolicy for Services {
-    fn next(&self) -> Result<Uri, ServerError> {
-        if self.servers.read().unwrap().is_empty() {
+    async fn next(&self) -> Result<Uri, ServerError> {
+        if self.servers.read().await.is_empty() {
             return Err(ServerError::NotFoundServer);
         }
 
-        let servers = self.servers.read().unwrap();
+        let servers = self.servers.read().await;
         let server = if servers.len() == 1 {
             servers.first().unwrap()
         } else {
@@ -164,26 +165,39 @@ impl AppState {
         }
     }
 
-    fn add_url(&self, url_type: UrlType, url: &Uri) {
-        match url_type {
-            UrlType::Image => self.image_urls.write().unwrap().push(url.clone()),
-        }
+    async fn add_url(&self, url_type: UrlType, url: &Uri) -> Result<(), ServerError> {
+        let mut services = match url_type {
+            UrlType::Image => self.image_urls.write().await,
+        };
+
+        services.push(url.clone()).await;
+        info!(target: "stdout", "registered server url: {}", url);
+
+        Ok(())
     }
 
-    fn remove_url(&self, url_type: UrlType, url: &Uri) {
+    async fn remove_url(&self, url_type: UrlType, url: &Uri) -> Result<(), ServerError> {
         let services = match &url_type {
             UrlType::Image => &self.image_urls,
         };
 
-        let services = services.write().unwrap();
+        let services = services.write().await;
+        let before = services.servers.read().await.len();
         services
             .servers
             .write()
-            .unwrap()
+            .await
             .retain(|server| &server.url != url);
+        let after = services.servers.read().await.len();
+
+        if before == after {
+            return Err(ServerError::NotFoundServer);
+        }
 
         // Optionally, log the removal
         info!(target: "stdout", "Removed {} URL: {}", url_type, url);
+
+        Ok(())
     }
 }
 

@@ -26,17 +26,16 @@ pub(crate) async fn image_handler(
 ) -> Result<Response<Body>, StatusCode> {
     info!(target: "stdout", "handling image request");
 
-    let image_url = state.image_urls.read().unwrap().next();
+    let image_url = match state.image_urls.read().await.next().await {
+        Ok(url) => url,
+        Err(e) => {
+            let err_msg = e.to_string();
+            info!(target: "stdout", "{}", &err_msg);
+            return Ok(error::internal_server_error(&err_msg));
+        }
+    };
 
-    if let Err(e) = image_url {
-        let err_msg = e.to_string();
-
-        error!(target: "stdout", "{}", &err_msg);
-
-        return Ok(error::internal_server_error(&err_msg));
-    }
-
-    proxy_request(state.client, req, image_url.unwrap()).await
+    proxy_request(state.client, req, image_url).await
 }
 
 pub(crate) async fn proxy_request(
@@ -1722,8 +1721,13 @@ pub(crate) async fn add_url_handler(
     };
 
     let url: Uri = body.parse().map_err(|_| StatusCode::BAD_REQUEST)?;
-    state.add_url(url_type, &url);
-    info!(target: "stdout", "registered server url: {}", url);
+    if let Err(e) = state.add_url(url_type, &url).await {
+        let err_msg = e.to_string();
+
+        info!(target: "stdout", "{}", &err_msg);
+
+        return Ok(error::internal_server_error(&err_msg));
+    }
 
     // create a response
     let response = Response::builder()
@@ -1760,7 +1764,13 @@ pub(crate) async fn remove_url_handler(
             return Ok(error::internal_server_error(&err_msg));
         }
     };
-    state.remove_url(url_type, &url);
+    if let Err(e) = state.remove_url(url_type, &url).await {
+        let err_msg = e.to_string();
+
+        error!(target: "stdout", "{}", &err_msg);
+
+        return Ok(error::internal_server_error(&err_msg));
+    }
 
     info!(target: "stdout", "unregistered {}", url);
 
