@@ -1695,7 +1695,16 @@ pub(crate) async fn proxy_request(
                 Ok(response)
             }
         },
-        Err(_) => Err(StatusCode::BAD_GATEWAY),
+        Err(e) => {
+            let err_msg = format!(
+                "failed to forward the request to the downstream server: {}",
+                e
+            );
+
+            error!(target: "stdout", "{}", &err_msg);
+
+            Ok(error::internal_server_error(&err_msg))
+        }
     }
 }
 
@@ -1729,20 +1738,45 @@ pub(crate) async fn remove_url_handler(
     State(state): State<AppState>,
     Path(url_type): Path<String>,
     body: String,
-) -> Result<StatusCode, StatusCode> {
+) -> Result<Response<Body>, StatusCode> {
     info!(target: "stdout", "In remove_url_handler");
 
     let url_type = match url_type.as_str() {
         "image" => UrlType::Image,
-        _ => return Err(StatusCode::BAD_REQUEST),
+        _ => {
+            let err_msg = format!("invalid url type: {}", url_type);
+            error!(target: "stdout", "{}", &err_msg);
+            return Ok(error::internal_server_error(&err_msg));
+        }
     };
 
-    let url: Uri = body.parse().map_err(|_| StatusCode::BAD_REQUEST)?;
+    let url: Uri = match body.parse() {
+        Ok(url) => url,
+        Err(_) => {
+            let err_msg = format!("invalid url: {}", &body);
+
+            error!(target: "stdout", "{}", &err_msg);
+
+            return Ok(error::internal_server_error(&err_msg));
+        }
+    };
     state.remove_url(url_type, &url);
 
     info!(target: "stdout", "unregistered {}", url);
 
-    Ok(StatusCode::OK)
+    // create a response with status code 200. Content-Type is JSON
+    let json_body = serde_json::json!({
+        "message": "URL unregistered successfully",
+        "url": url.to_string()
+    });
+
+    let response = Response::builder()
+        .status(StatusCode::OK)
+        .header("Content-Type", "application/json")
+        .body(Body::from(json_body.to_string()))
+        .unwrap();
+
+    Ok(response)
 }
 
 // convert an image file to a base64 string
