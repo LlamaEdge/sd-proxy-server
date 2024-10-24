@@ -357,7 +357,7 @@ dependencies = [
 [[package]]
 name = "endpoints"
 version = "0.16.0"
-source = "git+https://github.com/LlamaEdge/LlamaEdge.git?branch=feat-improve-whisper#710e1ffe8cdca1f7462e4ef913aa99cf93602b21"
+source = "git+https://github.com/LlamaEdge/LlamaEdge.git?branch=feat-improve-whisper#bab0adce93d5eba679990ed71c953a1b819a57be"
 dependencies = [
  "indexmap",
  "serde",
@@ -1202,9 +1202,9 @@ dependencies = [
 
 [[package]]
 name = "regex"
-version = "1.11.0"
+version = "1.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "38200e5ee88914975b69f657f0801b6f6dccafd44fd9326302a4aaeecfacb1d8"
+checksum = "b544ef1b4eac5dc2db33ea63606ae9ffcfac26c1416a2806ae0bf5f56b201191"
 dependencies = [
  "aho-corasick",
  "memchr",
