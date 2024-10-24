@@ -13,6 +13,7 @@ use error::ServerError;
 use handler::*;
 use hyper::{client::HttpConnector, Client};
 use std::{
+    collections::HashMap,
     fmt,
     net::SocketAddr,
     sync::{
@@ -74,6 +75,7 @@ async fn main() -> Result<(), ServerError> {
         .route("/v1/images/edits", post(image_handler))
         .route("/admin/register/:type", post(add_url_handler))
         .route("/admin/unregister/:type", post(remove_url_handler))
+        .route("/admin/servers", post(list_downstream_servers_handler))
         .with_state(app_state);
 
     // socket address
@@ -198,6 +200,24 @@ impl AppState {
         info!(target: "stdout", "Removed {} URL: {}", url_type, url);
 
         Ok(())
+    }
+
+    async fn list_downstream_servers(&self) -> HashMap<String, Vec<String>> {
+        let image_servers = self
+            .image_urls
+            .read()
+            .await
+            .servers
+            .read()
+            .await
+            .iter()
+            .map(|s| s.url.to_string())
+            .collect();
+
+        let mut servers = HashMap::new();
+        servers.insert("image".to_string(), image_servers);
+
+        servers
     }
 }
 

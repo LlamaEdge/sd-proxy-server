@@ -1804,6 +1804,25 @@ pub(crate) async fn remove_url_handler(
     Ok(response)
 }
 
+pub(crate) async fn list_downstream_servers_handler(
+    State(state): State<AppState>,
+) -> Result<Response<Body>, StatusCode> {
+    let servers = state.list_downstream_servers().await;
+
+    // create a response with status code 200. Content-Type is JSON
+    let json_body = serde_json::json!({
+        "image": servers.get("image").unwrap(),
+    });
+
+    let response = Response::builder()
+        .status(StatusCode::OK)
+        .header("Content-Type", "application/json")
+        .body(Body::from(json_body.to_string()))
+        .unwrap();
+
+    Ok(response)
+}
+
 // convert an image file to a base64 string
 fn image_to_base64(image_path: impl AsRef<std::path::Path>) -> std::io::Result<String> {
     // Open the file
