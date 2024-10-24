@@ -24,7 +24,7 @@ Creates an image given a prompt.
 - **subseed_strength** (f64, optional): Subseed strength for the image generation. Defaults to 0.0.
 - **seed_resize_from_h** (i64, optional): Seed resize from H. Defaults to -1.
 - **seed_resize_from_w** (i64, optional): Seed resize from W. Defaults to -1.
-- **sampler_name** (string, optional): Sampler name.
+- **sampler_name** (string, optional): Sampler name. Possible values are `Euler`, `Euler a`, `LMS`, `Heun`, `DPM++ 2M`, `DPM++ 2M Karras`, `DPM2`, `DPM2 a`, `DPM++ SDE`, `DPM++ SDE Karras`, `LMS Karras`, `DPM2 Karras`, `DPM++ SDE Karras`. Defaults to `Euler`.
 - **scheduler** (string, optional): Denoiser sigma scheduler. Possible values are `discrete`, `karras`, `exponential`, `ays`, `gits`. Defaults to `discrete`.
 - **batch_size** (u32, optional): Number of images to generate. Default is 1.
 - **n_iter** (u32, optional): Number of iterations. Defaults to 1.
@@ -61,7 +61,7 @@ Creates an image given a prompt.
 - **hr_prompt** (string, optional): Hr Prompt. Defaults to "".
 - **hr_negative_prompt** (string, optional): Hr Negative Prompt. Defaults to "".
 - **force_task_id** (string, optional): Force Task Id.
-- **sampler_index** (string, optional): Sampler index. Defaults to "Euler".
+- **sampler_index** (string, optional): Sampler index. Possible values are `Euler`, `Euler a`, `LMS`, `Heun`, `DPM++ 2M`, `DPM++ 2M Karras`, `DPM2`, `DPM2 a`, `DPM++ SDE`, `DPM++ SDE Karras`, `LMS Karras`, `DPM2 Karras`, `DPM++ SDE Karras`. Defaults to `Euler`.
 - **send_images** (bool, optional): Send images. Defaults to true.
 - **save_images** (bool, optional): Save images. Defaults to false.
 - **alwayson_scripts** (AlwaysOnScripts, optional): Alwayson scripts.
