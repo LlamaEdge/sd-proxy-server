@@ -79,8 +79,11 @@
 
   If the command runs successfully, the following message will be displayed:
 
-  ```text
-  Registered server url: http://localhost:7860/
+  ```json
+  {
+    "message": "URL registered successfully",
+    "url": "http://localhost:7860/"
+  }
   ```
 
 - Send a text-to-image request to the proxy server
