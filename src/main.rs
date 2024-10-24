@@ -153,8 +153,6 @@ impl RoutingPolicy for Services {
 #[derive(Clone)]
 struct AppState {
     client: SharedClient,
-    // chat_urls: Arc<RwLock<Services>>,
-    // audio_urls: Arc<RwLock<Services>>,
     image_urls: Arc<RwLock<Services>>,
 }
 
@@ -162,24 +160,18 @@ impl AppState {
     fn new(client: SharedClient) -> Self {
         Self {
             client,
-            // chat_urls: Arc::new(RwLock::new(Services::default())),
-            // audio_urls: Arc::new(RwLock::new(Services::default())),
             image_urls: Arc::new(RwLock::new(Services::default())),
         }
     }
 
     fn add_url(&self, url_type: UrlType, url: &Uri) {
         match url_type {
-            // UrlType::Chat => self.chat_urls.write().unwrap().push(url.clone()),
-            // UrlType::Audio => self.audio_urls.write().unwrap().push(url.clone()),
             UrlType::Image => self.image_urls.write().unwrap().push(url.clone()),
         }
     }
 
     fn remove_url(&self, url_type: UrlType, url: &Uri) {
         let services = match &url_type {
-            // UrlType::Chat => &self.chat_urls,
-            // UrlType::Audio => &self.audio_urls,
             UrlType::Image => &self.image_urls,
         };
 
@@ -197,15 +189,11 @@ impl AppState {
 
 #[derive(Debug)]
 enum UrlType {
-    // Audio,
-    // Chat,
     Image,
 }
 impl fmt::Display for UrlType {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            // UrlType::Chat => write!(f, "Chat"),
-            // UrlType::Audio => write!(f, "Audio"),
             UrlType::Image => write!(f, "Image"),
         }
     }
