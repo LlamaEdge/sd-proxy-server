@@ -69,6 +69,8 @@
 
 - Register downstream sd server
 
+  Assume that the downstream sd server is running on `http://localhost:7860`. Then you can register it by the following command:
+
   ```bash
   curl --location 'http://localhost:8080/admin/register/image' \
   --header 'Content-Type: text/plain' \
