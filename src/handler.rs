@@ -1720,7 +1720,16 @@ pub(crate) async fn add_url_handler(
         _ => return Err(StatusCode::BAD_REQUEST),
     };
 
-    let url: Uri = body.parse().map_err(|_| StatusCode::BAD_REQUEST)?;
+    let url: Uri = match body.parse() {
+        Ok(url) => url,
+        Err(_) => {
+            let err_msg = format!("invalid url: {}", &body);
+
+            error!(target: "stdout", "{}", &err_msg);
+
+            return Ok(error::internal_server_error(&err_msg));
+        }
+    };
     if let Err(e) = state.add_url(url_type, &url).await {
         let err_msg = e.to_string();
 
@@ -1729,10 +1738,16 @@ pub(crate) async fn add_url_handler(
         return Ok(error::internal_server_error(&err_msg));
     }
 
-    // create a response
+    // create a response with status code 200. Content-Type is JSON
+    let json_body = serde_json::json!({
+        "message": "URL registered successfully",
+        "url": url.to_string()
+    });
+
     let response = Response::builder()
         .status(StatusCode::OK)
-        .body(Body::from(format!("Registered server url: {}", url)))
+        .header("Content-Type", "application/json")
+        .body(Body::from(json_body.to_string()))
         .unwrap();
 
     Ok(response)
