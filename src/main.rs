@@ -32,10 +32,10 @@ const DEFAULT_PORT: &str = "8080";
 #[command(name = "SD-Proxy-Server", version = env!("CARGO_PKG_VERSION"), author = env!("CARGO_PKG_AUTHORS"), about = "SD-Proxy-Server")]
 #[command(group = ArgGroup::new("socket_address_group").multiple(false).args(&["socket_addr", "port"]))]
 struct Cli {
-    /// Socket address of Llama-Gateway instance. For example, `0.0.0.0:8080`.
+    /// Socket address of SD-Proxy-Server instance. For example, `0.0.0.0:8080`.
     #[arg(long, default_value = None, value_parser = clap::value_parser!(SocketAddr), group = "socket_address_group")]
     socket_addr: Option<SocketAddr>,
-    /// Socket address of LlamaEdge API Server instance
+    /// Socket address of SD-Proxy-Server instance
     #[arg(long, default_value = DEFAULT_PORT, value_parser = clap::value_parser!(u16), group = "socket_address_group")]
     port: u16,
 }
@@ -100,7 +100,7 @@ trait RoutingPolicy {
     fn next(&self) -> Result<Uri, ServerError>;
 }
 
-/// Represents a LlamaEdge API server
+/// Represents a downstream SD server
 #[derive(Debug)]
 struct Server {
     url: Uri,
