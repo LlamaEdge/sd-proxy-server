@@ -5,7 +5,9 @@ sd-proxy-server provides two endpoints for image generation and editing. The fol
 > [!NOTE]
 > The project is still under active development. The existing features still need to be improved and more features will be added in the future.
 
-## Create Image
+## Business Endpoints
+
+### Create Image
 
 ```bash
 POST http://localhost:{port}/v1/images/generations
@@ -13,7 +15,7 @@ POST http://localhost:{port}/v1/images/generations
 
 Creates an image given a prompt.
 
-### Request body
+#### Request body
 
 - **prompt** (string): A text description of the desired image.
 - **negative_prompt** (string, optional): A text description of what the image should not contain.
@@ -29,7 +31,7 @@ Creates an image given a prompt.
 - **strength** (float, optional): Strength for noising/unnoising. Default is 0.75.
 - **scheduler** (string, optional): Denoiser sigma scheduler. Possible values are `discrete`, `karras`, `exponential`, `ays`, `gits`. Defaults to `discrete`.
 
-### Example
+#### Example
 
 - Text-to-image generation:
 
@@ -62,7 +64,7 @@ Creates an image given a prompt.
   --form 'seed="42"'
   ```
 
-## Edit Image
+### Edit Image
 
 ```bash
 POST http://localhost:{port}/v1/images/edits
@@ -70,7 +72,7 @@ POST http://localhost:{port}/v1/images/edits
 
 Creates an edited or extended image given an original image and a prompt.
 
-### Request body
+#### Request body
 
 - **image** (file): Image file to edit.
 - **prompt** (string): A text description of the desired image.
@@ -89,7 +91,7 @@ Creates an edited or extended image given an original image and a prompt.
 - **response_format** (string, optional): Format of the response. Possible values are `url` and `b64_json`. Default is `url`.
 - **scheduler** (string, optional): Denoiser sigma scheduler. Possible values are `discrete`, `karras`, `exponential`, `ays`, `gits`. Defaults to `discrete`.
 
-### Example
+#### Example
 
 ```bash
 curl --location 'http://localhost:8080/v1/images/edits' \
@@ -106,4 +108,52 @@ curl --location 'http://localhost:8080/v1/images/edits' \
 --form 'seed="42"'
 --form 'strength="0.75"' \
 --form 'response_format="url"'
+```
+
+## Admin Endpoints
+
+### List Downstream Servers
+
+```bash
+curl -X POST http://localhost:{port}/admin/servers
+```
+
+If the command runs successfully and there are registered downstream servers, the following message will be displayed:
+
+```json
+{
+    "image": [
+        "http://localhost:7860/"
+    ]
+}
+```
+
+### Register Downstream Server
+
+```bash
+curl -X POST http://localhost:{port}/admin/register/image -d "http://localhost:7860"
+```
+
+If the command runs successfully, the following message will be displayed:
+
+```json
+{
+    "message": "URL registered successfully",
+    "url": "http://localhost:7860/"
+}
+```
+
+### Unregister Downstream Server
+
+```bash
+curl -X POST http://localhost:{port}/admin/unregister/image -d "http://localhost:7860"
+```
+
+If the command runs successfully, the following message will be displayed:
+
+```json
+{
+    "message": "URL unregistered successfully",
+    "url": "http://localhost:7860/"
+}
 ```
