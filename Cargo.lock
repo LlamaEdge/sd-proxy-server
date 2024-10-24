@@ -357,7 +357,7 @@ dependencies = [
 [[package]]
 name = "endpoints"
 version = "0.16.0"
-source = "git+https://github.com/LlamaEdge/LlamaEdge.git?branch=feat-improve-whisper#bab0adce93d5eba679990ed71c953a1b819a57be"
+source = "git+https://github.com/LlamaEdge/LlamaEdge.git?branch=feat-improve-whisper#74cd575131edf08e7fdee25c71c635155891ff83"
 dependencies = [
  "indexmap",
  "serde",
