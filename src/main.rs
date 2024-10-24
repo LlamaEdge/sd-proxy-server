@@ -25,11 +25,11 @@ use utils::LogLevel;
 
 type SharedClient = Arc<Client<HttpConnector>>;
 
-// default port of LlamaEdge Gateway
+// default port of SD-Proxy-Server
 const DEFAULT_PORT: &str = "8080";
 
 #[derive(Debug, Parser)]
-#[command(name = "LlamaEdge Gateway", version = env!("CARGO_PKG_VERSION"), author = env!("CARGO_PKG_AUTHORS"), about = "LlamaEdge Gateway")]
+#[command(name = "SD-Proxy-Server", version = env!("CARGO_PKG_VERSION"), author = env!("CARGO_PKG_AUTHORS"), about = "SD-Proxy-Server")]
 #[command(group = ArgGroup::new("socket_address_group").multiple(false).args(&["socket_addr", "port"]))]
 struct Cli {
     /// Socket address of Llama-Gateway instance. For example, `0.0.0.0:8080`.
