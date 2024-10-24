@@ -7,14 +7,33 @@
 
 - Install dependencies
 
-  ```bash
-  # Ubuntu 20.04
-  sudo add-apt-repository ppa:deadsnakes/ppa
-  sudo apt update
-  sudo apt install -y python3.10 python3.10-dev
-  sudo apt install -y python3.10-venv
-  sudo apt install -y wget git libgl1 libglib2.0-0 curl
-  ```
+  - Add Python PPA
+
+    ```bash
+    # Ubuntu 20.04
+    sudo add-apt-repository ppa:deadsnakes/ppa
+    sudo apt update
+    ```
+
+  - Install Python 3.10 (Optional)
+
+    If Python 3.10 is already installed, you can skip this step. Use `python3 --version` or `python --version` to check if Python 3.10 is installed.
+
+    ```bash
+    sudo apt install -y python3.10 python3.10-dev
+    ```
+
+  - Install Python 3.10 venv
+
+    ```bash
+    sudo apt install -y python3.10-venv
+    ```
+
+  - Install other dependencies
+
+    ```bash
+    sudo apt install -y wget git libgl1 libglib2.0-0 curl
+    ```
 
 - Install sd-webui
 
