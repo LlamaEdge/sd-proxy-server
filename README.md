@@ -108,12 +108,39 @@
 - Send a text-to-image request to the proxy server
 
   ```bash
-  curl -X POST 'http://localhost:8080/v1/images/generations' \
-    --header 'Content-Type: application/json' \
-    --data '{
-        "model": "sd-v1.4",
-        "prompt": "A cute baby sea otter"
-    }'
+  curl -X POST http://localhost:8080/v1/images/generations \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "prompt": "1girl,intricate,highly detailed,Mature,seductive gaze,teasing expression,sexy posture,solo,Moderate breasts,Charm,alluring,Hot,tsurime,lipstick,stylish_pose,long hair,long_eyelashes,black hair,bar,dress,",
+    "negative_prompt": "",
+    "seed": -1,
+    "batch_size": 1,
+    "steps": 20,
+    "scheduler": "Karras",
+    "cfg_scale": 7,
+    "width": 540,
+    "height": 960,
+    "restore_faces": false,
+    "tiling": false,
+    "override_settings": {
+        "sd_model_checkpoint": "waiANINSFWPONYXL_v90.safetensors"
+    },
+    "sampler_index": "DPM++ 2M",
+    "alwayson_scripts": {
+        "controlnet": {
+            "args": [
+                {
+                    "enabled": true,
+                    "pixel_perfect": true,
+                    "image": "......"
+                    "module": "reference_only",
+                    "guidance_start": 0,
+                    "guidance_end": 0.2
+                }
+            ]
+        }
+    }
+  }'
   ```
 
   If the command runs successfully, the following message will be displayed:
@@ -121,27 +148,8 @@
   ```json
   [
     {
-        "b64_json": "\"iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAIAAAB7GkOtAAAAxHRFW...\"",
-        "prompt": "\"A cute baby sea otter\""
-     }
-  ]
-  ```
-
-- Send an image-to-image request to the proxy server
-
-  ```bash
-  curl --location 'http://localhost:10086/v1/images/edits' \
-    --form 'image=@"/path/to/your_image.png"' \
-    --form 'prompt="your prompt"'
-  ```
-
-  If the command runs successfully, the following message will be displayed:
-
-  ```json
-  [
-    {
-        "b64_json": "\"iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAIAAAB7GkOtAAAAxHRFW...\"",
-        "prompt": "\"your prompt\""
+        "b64_json": "iVBORw0KGgoAAAANSUhEUgAAAhgAAAP......",
+        "prompt": "1girl,intricate,highly detailed,Mature,seductive gaze,teasing expression,sexy posture,solo,Moderate breasts,Charm,alluring,Hot,tsurime,lipstick,stylish_pose,long hair,long_eyelashes,black hair,bar,dress,"
      }
   ]
   ```
