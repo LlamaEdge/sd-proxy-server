@@ -35,7 +35,7 @@
     sudo apt install -y wget git libgl1 libglib2.0-0 curl
     ```
 
-- Install sd-webui
+- Install stable-diffusion-webui
 
   ```bash
   # Download script
@@ -48,10 +48,20 @@
   bash webui.sh -f
   ```
 
-- Download models (Optional)
+  **Note**: The first time you run the script, it will take minutes to deploy stable-diffusion-webui.
+
+- (Optional) Download models
 
   ```bash
   curl -L https://huggingface.co/second-state/waiANINSFWPONYXL_v90-GGUF/resolve/main/waiANINSFWPONYXL_v90-f16.safetensors -o ./stable-diffusion-webui/models/Stable-diffusion/waiANINSFWPONYXL_v90-f16.safetensors
+  ```
+
+- Add `reference-only control` extension to stable-diffusion-webui
+
+  Follow the steps in [this guide](https://github.com/Mikubill/sd-webui-controlnet?tab=readme-ov-file#installation) to install the `reference-only control` extension to stable-diffusion-webui. For convenience, you can get the url of the extension below:
+
+  ```text
+  https://github.com/Mikubill/sd-webui-controlnet.git
   ```
 
 - Install wasmedge
@@ -107,43 +117,17 @@
 
 - Send a text-to-image request to the proxy server
 
+  In the `data` directory, `req.json` shows an example of a text-to-image request. The image generation process uses `reference-only control`.
+
   ```bash
-  curl -X POST http://localhost:8080/v1/images/generations \
-  --header 'Content-Type: application/json' \
-  --data '{
-    "prompt": "1girl,intricate,highly detailed,Mature,seductive gaze,teasing expression,sexy posture,solo,Moderate breasts,Charm,alluring,Hot,tsurime,lipstick,stylish_pose,long hair,long_eyelashes,black hair,bar,dress,",
-    "negative_prompt": "",
-    "seed": -1,
-    "batch_size": 1,
-    "steps": 20,
-    "scheduler": "Karras",
-    "cfg_scale": 7,
-    "width": 540,
-    "height": 960,
-    "restore_faces": false,
-    "tiling": false,
-    "override_settings": {
-        "sd_model_checkpoint": "waiANINSFWPONYXL_v90.safetensors"
-    },
-    "sampler_index": "DPM++ 2M",
-    "alwayson_scripts": {
-        "controlnet": {
-            "args": [
-                {
-                    "enabled": true,
-                    "pixel_perfect": true,
-                    "image": "......"
-                    "module": "reference_only",
-                    "guidance_start": 0,
-                    "guidance_end": 0.2
-                }
-            ]
-        }
-    }
-  }'
+  # download req.json
+  curl -LO https://raw.githubusercontent.com/LlamaEdge/sd-proxy-server/main/data/req.json
+
+  # send request
+  curl -o output.json -X POST -H "Content-Type: application/json" -d @req.json http://localhost:8080/v1/images/generations
   ```
 
-  If the command runs successfully, the following message will be displayed:
+  If the command runs successfully, the output will be saved in `output.json`, which contains the generated image and the prompt. It looks like the following:
 
   ```json
   [
