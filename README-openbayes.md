@@ -8,6 +8,12 @@ sudo apt-get upgrade
 sudo apt install -y wget git libgl1 libglib2.0-0 curl
 ```
 
+## Install WasmEdge
+
+```
+bash install_v2_cn.sh -v 0.14.1
+```
+
 ## Install Gaia
 
 ```
