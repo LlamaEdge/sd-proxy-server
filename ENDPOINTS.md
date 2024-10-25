@@ -1,6 +1,6 @@
 # Endpoints
 
-sd-proxy-server provides two endpoints for image generation and editing. The following sections describe how to use these endpoints.
+sd-proxy-server provides multiple endpoints for image generation and editing. The following sections describe how to use these endpoints.
 
 > [!NOTE]
 > The project is still under active development. The existing features still need to be improved and more features will be added in the future.
