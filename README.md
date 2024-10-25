@@ -121,7 +121,7 @@
 
   ```bash
   # download req.json
-  curl -LO https://raw.githubusercontent.com/LlamaEdge/sd-proxy-server/main/data/req.json
+  curl -LO https://raw.githubusercontent.com/LlamaEdge/sd-proxy-server/refs/heads/main/data/req.json
 
   # send request
   curl -o output.json -X POST -H "Content-Type: application/json" -d @req.json http://localhost:8080/v1/images/generations
