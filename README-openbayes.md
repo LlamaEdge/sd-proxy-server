@@ -44,7 +44,13 @@ pip install python-multipart
 
 ```
 chmod +x webui-cn.sh
-bash webui-cn.sh -f
+bash webui-cn.sh -f --api --no-download-sd-model
+```
+
+## Use the downloaded models
+
+```
+cp *safetensors  stable-diffusion-webui/models/Stable-diffusion/
 ```
 
 ## Add extension
