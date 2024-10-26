@@ -1,11 +1,21 @@
 # Openbayes notes
 
+## Local files
+
+* pre-prepared scripts
+* wasm file for the sd proxy
+* model file
+
+```
+cp /openbayes/input/input0/* .
+```
+
 ## Install OS packages
 
 ```
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt install -y wget git libgl1 libglib2.0-0 curl
+apt-get update
+apt-get upgrade
+apt install -y wget git libgl1 libglib2.0-0 curl
 ```
 
 ## Install WasmEdge
@@ -17,7 +27,6 @@ bash install_v2_cn.sh -v 0.14.1
 ## Install Gaia
 
 ```
-cp /openbayes/input0/install-gaia-cn.sh .
 bash install-gaia-cn.sh
 ```
 
@@ -25,29 +34,16 @@ bash install-gaia-cn.sh
 
 ```
 # Ubuntu 20.04
-sudo add-apt-repository ppa:deadsnakes/ppa
-sudo apt update
-sudo apt install -y python3.10 python3.10-dev
-```
-
-## Get wasm
-
-```
-cp /openbayes/input0/sd-proxy-server.wasm .
+add-apt-repository ppa:deadsnakes/ppa
+apt update
+apt install -y python3.10 python3.10-dev
 ```
 
 ## Install stable-diffusion-webui
 
 ```
-cp /openbayes/input0/webui-cn.sh .
 chmod +x webui-cn.sh
 bash webui-cn.sh -f
-```
-
-## Get model
-
-```
-cp /openbayes/input0/waiANINSFWPONYXL_v90-f16.safetensors ./stable-diffusion-webui/models/Stable-diffusion/waiANINSFWPONYXL_v90-f16.safetensors
 ```
 
 ## Add extension
