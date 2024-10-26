@@ -37,6 +37,7 @@ bash install-gaia-cn.sh
 add-apt-repository ppa:deadsnakes/ppa
 apt update
 apt install -y python3.10 python3.10-dev
+pip install python-multipart
 ```
 
 ## Install stable-diffusion-webui
