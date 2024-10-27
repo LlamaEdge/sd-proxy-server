@@ -51,6 +51,12 @@ cp -r /usr/local/lib/python3.10/site-packages/python_multipart-0.0.12.dist-info 
 cp -r /usr/local/lib/python3.10/site-packages/multipart stable-diffusion-webui/venv/lib/python3.10/site-packages/
 ```
 
+Restart the webui
+
+```
+nohup bash webui-cn.sh -f --api --no-download-sd-model &
+```
+
 ## Connect with port mapping
 
 ```
@@ -75,12 +81,6 @@ https://mirror.ghproxy.com/https://github.com/Mikubill/sd-webui-controlnet.git
 
 ```
 nohup wasmedge --dir .:. sd-proxy-server.wasm &
-```
-
-## Start webui server
-
-```
-nohup bash webui-cn.sh -f --api --no-download-sd-model &
 ```
 
 ## Connect the two servers
