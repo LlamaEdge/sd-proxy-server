@@ -4,18 +4,18 @@
 
 * pre-prepared scripts
 * wasm file for the sd proxy
-* model file
+* the webui directory with openai and model files
 
 ```
 cp /openbayes/input/input0/* .
 ```
 
-## Install OS packages
+## Install OS and Python deps
 
 ```
-apt-get update
-apt-get upgrade
 apt install -y wget git libgl1 libglib2.0-0 curl
+apt install -y python3.10 python3.10-dev
+pip install python-multipart
 ```
 
 ## Install WasmEdge
@@ -30,16 +30,6 @@ bash install_v2_cn.sh -v 0.14.1
 bash install-gaia-cn.sh
 ```
 
-## Install Python
-
-```
-# Ubuntu 20.04
-add-apt-repository ppa:deadsnakes/ppa
-apt update
-apt install -y python3.10 python3.10-dev
-pip install python-multipart
-```
-
 ## Install stable-diffusion-webui
 
 ```
@@ -47,10 +37,16 @@ chmod +x webui-cn.sh
 bash webui-cn.sh -f --api --no-download-sd-model
 ```
 
-## Use the downloaded models
+## Connect with port mapping
 
 ```
-cp *safetensors  stable-diffusion-webui/models/Stable-diffusion/
+ssh -L 7860:localhost:7860 root@ssh.openbayes.com -p12345
+```
+
+Open the browser
+
+```
+http://localhost:7860/
 ```
 
 ## Add extension
@@ -70,7 +66,7 @@ nohup wasmedge --dir .:. sd-proxy-server.wasm &
 ## Start webui server
 
 ```
-nohup bash webui.sh -f --api &
+nohup bash webui-cn.sh -f --api --no-download-sd-model &
 ```
 
 ## Connect the two servers
@@ -84,7 +80,7 @@ curl --location 'http://localhost:8080/admin/register/image' \
 ## Local test
 
 ```
-cp /openbayes/input0/req.json .
+cp /openbayes/input/input0/req.json .
 curl -o output.json -X POST -H "Content-Type: application/json" -d @req.json http://localhost:8080/v1/images/generations
 ```
 
