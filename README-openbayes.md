@@ -113,7 +113,7 @@ subdomain = "controlnet-image"
 Start the frp service.
 
 ```
-nohup /root/gaianet/bin/frpc -c /root/gaianet/gaianet-frp/frpc.toml &
+nohup /root/gaianet/bin/frpc -c /root/gaianet/gaia-frp/frpc.toml &
 ```
 
 ## Public test
