@@ -9,7 +9,7 @@ add-apt-repository ppa:deadsnakes/ppa
 apt update
 apt install -y python3.10 python3.10-dev
 
-pip install python-multipart
+pip install python-multipart==0.0.12
 ```
 
 ## Local files
