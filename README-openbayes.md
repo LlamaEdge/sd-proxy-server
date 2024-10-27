@@ -1,6 +1,16 @@
 # Openbayes notes
 
+## Install OS and Python deps
+
+```
+apt install -y wget zip unzip git libgl1 libglib2.0-0 curl
+apt install -y python3.10 python3.10-dev
+pip install python-multipart
+```
+
 ## Local files
+
+Mount the `sd-controlnet` model set to the `/openbayes/input/input0` directory. It contains
 
 * pre-prepared scripts
 * wasm file for the sd proxy
@@ -9,14 +19,6 @@
 ```
 cp /openbayes/input/input0/* .
 unzip stable-diffusion-webui.zip
-```
-
-## Install OS and Python deps
-
-```
-apt install -y wget zip unzip git libgl1 libglib2.0-0 curl
-apt install -y python3.10 python3.10-dev
-pip install python-multipart
 ```
 
 ## Install WasmEdge
