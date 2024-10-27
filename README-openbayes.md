@@ -8,12 +8,13 @@
 
 ```
 cp /openbayes/input/input0/* .
+unzip stable-diffusion-webui.zip
 ```
 
 ## Install OS and Python deps
 
 ```
-apt install -y wget git libgl1 libglib2.0-0 curl
+apt install -y wget zip unzip git libgl1 libglib2.0-0 curl
 apt install -y python3.10 python3.10-dev
 pip install python-multipart
 ```
@@ -35,12 +36,6 @@ bash install-gaia-cn.sh
 ```
 chmod +x webui-cn.sh
 bash webui-cn.sh -f --api --no-download-sd-model
-```
-
-Copy the models into the install.
-
-```
-cp waiANINSFWPONYXL_v90-f16.safetensors stable-diffusion-webui/models/Stable-diffusion/
 ```
 
 ## Connect with port mapping
