@@ -4,7 +4,11 @@
 
 ```
 apt install -y wget zip unzip git libgl1 libglib2.0-0 curl
+
+add-apt-repository ppa:deadsnakes/ppa
+apt update
 apt install -y python3.10 python3.10-dev
+
 pip install python-multipart
 ```
 
