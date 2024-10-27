@@ -37,6 +37,12 @@ chmod +x webui-cn.sh
 bash webui-cn.sh -f --api --no-download-sd-model
 ```
 
+Copy the models into the install.
+
+```
+cp waiANINSFWPONYXL_v90-f16.safetensors stable-diffusion-webui/models/Stable-diffusion/
+```
+
 ## Connect with port mapping
 
 ```
