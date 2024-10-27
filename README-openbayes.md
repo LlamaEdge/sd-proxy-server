@@ -44,6 +44,13 @@ chmod +x webui-cn.sh
 bash webui-cn.sh -f --api --no-download-sd-model
 ```
 
+It will fail with the missing `python-multipart` package.
+
+```
+cp -r /usr/local/lib/python3.10/site-packages/python_multipart-0.0.12.dist-info stable-diffusion-webui/venv/lib/python3.10/site-packages/
+cp -r /usr/local/lib/python3.10/site-packages/multipart stable-diffusion-webui/venv/lib/python3.10/site-packages/
+```
+
 ## Connect with port mapping
 
 ```
