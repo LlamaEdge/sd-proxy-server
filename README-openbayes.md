@@ -10,6 +10,7 @@ apt update
 apt install -y python3.10 python3.10-dev
 
 pip install python-multipart==0.0.12
+pip install insightface
 ```
 
 ## Local files
@@ -49,6 +50,9 @@ It will fail with the missing `python-multipart` package.
 ```
 cp -r /usr/local/lib/python3.10/site-packages/python_multipart-0.0.12.dist-info stable-diffusion-webui/venv/lib/python3.10/site-packages/
 cp -r /usr/local/lib/python3.10/site-packages/multipart stable-diffusion-webui/venv/lib/python3.10/site-packages/
+
+cp -r /usr/local/lib/python3.10/site-packages/insightface-0.7.3.dist-info stable-diffusion-webui/venv/lib/python3.10/site-packages/
+cp -r /usr/local/lib/python3.10/site-packages/insightface stable-diffusion-webui/venv/lib/python3.10/site-packages/
 ```
 
 Restart the webui
@@ -104,7 +108,7 @@ Add to `~/gaianet/gaia-frp/frpc.toml`
 
 ```
 [[proxies]]
-name = "controlnet-image.us.gaianet.network"
+name = "controlnet-image.gaia.domains"
 type = "http"
 localPort = 8080
 subdomain = "controlnet-image"
@@ -119,7 +123,7 @@ nohup /root/gaianet/bin/frpc -c /root/gaianet/gaia-frp/frpc.toml &
 ## Public test
 
 ```
-curl -o output.json -X POST -H "Content-Type: application/json" -d @req.json https://controlnet-image.us.gaianet.network/v1/images/generations
+curl -o output.json -X POST -H "Content-Type: application/json" -d @req.json https://controlnet-image.gaia.domains/v1/images/generations
 ```
 
 
